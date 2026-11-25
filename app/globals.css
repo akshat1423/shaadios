@@ -1,0 +1,224 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SF Mono", Menlo, monospace;
+  --color-night: #14110e;
+  --color-paper: #fbf7ef;
+  --color-sand: #efe7d8;
+  --color-sand-deep: #e3d8c3;
+  --color-ink: #221d17;
+  --color-muted: #7a6f5f;
+  --color-line: rgba(34, 29, 23, 0.1);
+  --color-kumkum: #b8321f;
+  --color-marigold: #e0962b;
+  --color-mehendi: #6b7a3a;
+  --color-peacock: #2f6f73;
+  --color-rose: #c4607a;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+:root {
+  --noise: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .27  0 0 0 0 .18  0 0 0 .09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* The page is warm stone with fine horizontal grille lines, the same surface as the pass stage */
+body {
+  background-color: #d9cfbc;
+  background-image:
+    radial-gradient(1100px 650px at 50% 8%, rgba(255, 255, 255, 0.34), transparent 70%),
+    radial-gradient(1000px 700px at 100% 100%, rgba(120, 95, 60, 0.16), transparent 60%),
+    repeating-linear-gradient(0deg, rgba(34, 29, 23, 0.05) 0 1px, transparent 1px 3px);
+  background-attachment: fixed;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(184, 50, 31, 0.25);
+}
+
+/* Warm paper grain used on cards, sheets and panels */
+.paper {
+  background-color: var(--color-paper);
+  background-image: var(--noise);
+}
+
+/* The dark side of the stone, with a dot matrix and a soft vignette */
+.stage-dark {
+  background-color: #14110e;
+  background-image:
+    radial-gradient(circle, rgba(251, 247, 239, 0.07) 1.2px, transparent 1.6px),
+    radial-gradient(900px 600px at 50% 40%, rgba(255, 255, 255, 0.06), transparent 70%),
+    radial-gradient(1200px 800px at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.45));
+  background-size: 28px 28px, auto, auto;
+}
+
+/* A speaker-grille dot matrix, the card's signature texture. Sits on top of .paper. */
+.dots {
+  background-image: radial-gradient(circle, rgba(34, 29, 23, 0.1) 1.7px, transparent 2.1px), var(--noise);
+  background-size: 14px 14px, auto;
+  background-position: 7px 7px, 0 0;
+}
+
+.night-card {
+  background-color: #14110e;
+  background-image:
+    radial-gradient(420px 300px at 20% 0%, rgba(255, 255, 255, 0.07), transparent 70%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 3px);
+}
+
+.card-shadow {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 0 0 1px rgba(34, 29, 23, 0.08),
+    0 2px 4px rgba(60, 40, 20, 0.08),
+    0 12px 24px -6px rgba(60, 40, 20, 0.22),
+    0 32px 60px -20px rgba(60, 40, 20, 0.35);
+}
+
+/* Gold-foil edge for invitation accents */
+.foil {
+  background: linear-gradient(135deg, #e9c46a, #b8862b);
+}
+
+/*
+ * A soft light band sweeping across a warm surface: what a card looks like while it is still loading. It is an
+ * overlay, so it works on any element without changing what the element is.
+ */
+@layer components {
+  .sweep {
+    position: relative;
+    overflow: hidden;
+  }
+  .sweep::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(105deg, transparent 15%, rgba(255, 255, 255, 0.6) 50%, transparent 85%);
+    animation: sweep 1.6s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .sweep-dark::after {
+    background: linear-gradient(105deg, transparent 15%, rgba(255, 255, 255, 0.12) 50%, transparent 85%);
+  }
+}
+@keyframes sweep {
+  to {
+    transform: translateX(100%);
+  }
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    margin-top: 28px;
+  }
+}
+@keyframes stamp {
+  0% {
+    opacity: 0;
+    transform: scale(1.8) rotate(-18deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(0.94) rotate(-9deg);
+  }
+  100% {
+    opacity: 0.92;
+    transform: scale(1) rotate(-9deg);
+  }
+}
+.stamp-in {
+  animation: stamp 0.5s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+
+.bone {
+  background: linear-gradient(160deg, #e9e0cf, #ddd1ba);
+}
+
+/* The stage behind the hanging pass: fine horizontal grille over warm stone */
+.grille {
+  background-color: #d9cfbc;
+  background-image:
+    radial-gradient(900px 600px at 60% 30%, rgba(255, 255, 255, 0.28), transparent 70%),
+    repeating-linear-gradient(0deg, rgba(34, 29, 23, 0.05) 0 1px, transparent 1px 3px);
+}
+
+/* Mechanical keys */
+.keycap {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 10px;
+  color: var(--color-ink);
+  background: linear-gradient(#f6f0e4, #e4dac7);
+  box-shadow:
+    0 1px 0 #fff inset,
+    0 0 0 1px rgba(34, 29, 23, 0.14),
+    0 4px 0 #b3a78f,
+    0 10px 14px -6px rgba(60, 40, 20, 0.45);
+  transition:
+    transform 0.08s,
+    box-shadow 0.08s;
+}
+.keycap:hover {
+  filter: brightness(1.03);
+}
+.keycap:active {
+  transform: translateY(3px);
+  box-shadow:
+    0 1px 0 #fff inset,
+    0 0 0 1px rgba(34, 29, 23, 0.14),
+    0 1px 0 #b3a78f,
+    0 3px 6px -4px rgba(60, 40, 20, 0.45);
+}
+.keycap-kumkum {
+  color: #fff;
+  background: linear-gradient(#d4513b, #b8321f);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.4) inset,
+    0 0 0 1px rgba(90, 20, 10, 0.35),
+    0 4px 0 #7d2214,
+    0 10px 14px -6px rgba(125, 34, 20, 0.6);
+}
+.keycap-kumkum:active {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.4) inset,
+    0 0 0 1px rgba(90, 20, 10, 0.35),
+    0 1px 0 #7d2214,
+    0 3px 6px -4px rgba(125, 34, 20, 0.6);
+}
+.keycap:disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sweep::after {
+    animation: none;
+    opacity: 0;
+  }
+  .stamp-in {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}
